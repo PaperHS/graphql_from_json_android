@@ -119,7 +119,7 @@ const formatArgs = (values, specs = {}) => {
       let value = '';
       if (kind === 'SCALAR') {
         if (['String', 'DateTime', 'ID', 'HexString'].includes(type)) {
-          value = `"${values[x].toString()}"`;
+          value = `${values[x].toString()}`;
         } else {
           value = values[x].toString();
         }
@@ -194,28 +194,31 @@ const getGraphQLBuilders = ({ types, rootName, ignoreFields, type }) => {
     const globalIgnore = typeof ignoreFields === 'function' ? ignoreFields(x) : ignoreFields || [];
 
     /* eslint-disable indent */
-    const fn = (argValues = {}, _ignoreFields = []) => {
+    const fn = (argValues = {},argValues_fix = {}, _ignoreFields = []) => {
       const argStr = x.args.length ? `${formatArgs(argValues, argSpecs)}` : '';
+      const argStrFix = x.args.length ? `${formatArgs(argValues_fix, argSpecs)}` : '';
       const selection = makeQuery(
         fields,
         [].concat(_ignoreFields || []).concat(globalIgnore),
         argValues
       ).trim();
-
       const queryStr = `${prefix}{${x.name}${argStr ? `(${argStr})` : ''}${
         selection ? `{${selection}}` : ''
       }}`;
-
+      
       try {
-        return print(parse(queryStr));
+        var rst = print(parse(queryStr));
+        rst = `${type} ${x.name}${argStr ?  `(${argStrFix})` : ''}`+rst
+        return rst;
       } catch (err) {
         // eslint-disable-next-line
         console.error('GraphQLBuilder Error:', queryStr);
         throw err;
       }
     };
-    /* eslint-enable indent */
 
+    /* eslint-enable indent */
+    
     fn.args = argSpecs;
     fns[x.name] = fn;
     return fns;
