@@ -208,6 +208,7 @@ const getGraphQLBuilders = ({ types, rootName, ignoreFields, type }) => {
       
       try {
         var rst = print(parse(queryStr));
+        console.log("name:"+x)
         rst = `${type} ${x.name}${argStr ?  `(${argStrFix})` : ''}`+rst
         return rst;
       } catch (err) {

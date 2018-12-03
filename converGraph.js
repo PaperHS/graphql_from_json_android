@@ -1,4 +1,4 @@
-const { getGraphQLBuilders } = require('./util');
+const { getGraphQLBuilders ,getMutationBuilders} = require('./util');
 const { types, queryType,mutationType,subscriptionType} = require('./schema.json');
 
 const builders0 = getGraphQLBuilders({
@@ -8,11 +8,11 @@ const builders0 = getGraphQLBuilders({
   type: 'query'
 });
 
-const builders1 = getGraphQLBuilders({
+const builders1 = getMutationBuilders({
   types,
   rootName: mutationType.name,
-  ignoredFields: [],
-  type: 'mutation'
+  ignoredFields: []
+  //type: 'mutation'
 });
 // const builders2 = getGraphQLBuilders({
 //   types,
@@ -21,7 +21,7 @@ const builders1 = getGraphQLBuilders({
 //   type: 'subscription'
 // });
 
-var barry = [builders0]
+var barry = [builders1]
 const lines = [];
 barry.forEach(builders => {
   Object.keys(builders).forEach(key => {
