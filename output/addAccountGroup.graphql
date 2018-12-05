@@ -1,0 +1,7 @@
+mutation addAccountGroup($description: String, $name: String!){
+  addAccountGroup(description: $description, name: $name) {
+    description
+    id
+    name
+  }
+}

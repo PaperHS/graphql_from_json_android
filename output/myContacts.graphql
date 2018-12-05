@@ -1,0 +1,30 @@
+query myContacts($paging: PageInput){
+  myContacts(paging: $paging) {
+    data {
+      address
+      addressType
+      alias
+      accountBasicInfo {
+        address
+        balance
+        isContract
+        numberTxsReceived
+        numberTxsSent
+        priceInUsd
+        pubKey
+        totalAmountReceived
+        totalAmountSent
+      }
+      group {
+        description
+        id
+        name
+      }
+    }
+    page {
+      cursor
+      next
+      total
+    }
+  }
+}

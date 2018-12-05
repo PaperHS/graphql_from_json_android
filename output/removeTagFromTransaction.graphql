@@ -1,0 +1,3 @@
+mutation removeTagFromTransaction($tagId: String, $transactionHash: String!){
+  removeTagFromTransaction(tagId: $tagId, transactionHash: $transactionHash)
+}

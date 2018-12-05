@@ -1,0 +1,61 @@
+query assetsByAccount($address: String!, $addressType: String!){
+  assetsByAccount(address: $address, addressType: $addressType) {
+    assets {
+      accountAddress
+      addressType
+      assetId
+      balance
+      assetType {
+        decimals
+        id
+        logo
+        name
+        symbol
+        price {
+          fiat
+          symbol
+          value
+        }
+      }
+      transactions {
+        data {
+          addressType
+          hash
+          note
+          accountingState {
+            isSettled
+            payableOrReceivable
+          }
+          relatedTransactions {
+            hash
+            note
+          }
+          tags {
+            id
+            name
+            type
+          }
+          transactionBasicInfo {
+            blockHash
+            blockHeight
+            fromAddress
+            gasLimit
+            gasPrice
+            gasUsed
+            hash
+            priceInUsd
+            time
+            toAddress
+            total
+            txType
+          }
+        }
+        page {
+          cursor
+          next
+          total
+        }
+      }
+    }
+  }
+}

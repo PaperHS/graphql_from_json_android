@@ -1,0 +1,46 @@
+query insightForAsset($address: String!, $addressType: String!, $assetId: String!, $filter: Filter){
+  insightForAsset(address: $address, addressType: $addressType, assetId: $assetId, filter: $filter) {
+    account {
+      address
+      addressType
+      alias
+      accountBasicInfo {
+        address
+        balance
+        isContract
+        numberTxsReceived
+        numberTxsSent
+        priceInUsd
+        pubKey
+        totalAmountReceived
+        totalAmountSent
+      }
+      group {
+        description
+        id
+        name
+      }
+    }
+    assetType {
+      decimals
+      id
+      logo
+      name
+      symbol
+      price {
+        fiat
+        symbol
+        value
+      }
+    }
+    topRecipients {
+      value
+    }
+    topSenders {
+      value
+    }
+    topTags {
+      value
+    }
+  }
+}

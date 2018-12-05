@@ -1,0 +1,3 @@
+mutation addTagToTransaction($tagId: String!, $transactionHash: String!){
+  addTagToTransaction(tagId: $tagId, transactionHash: $transactionHash)
+}

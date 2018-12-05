@@ -1,0 +1,14 @@
+query myAccountGroups($paging: PageInput){
+  myAccountGroups(paging: $paging) {
+    data {
+      description
+      id
+      name
+    }
+    page {
+      cursor
+      next
+      total
+    }
+  }
+}

@@ -1,0 +1,23 @@
+mutation updateAccountAlias($address: String!, $alias: String!){
+  updateAccountAlias(address: $address, alias: $alias) {
+    address
+    addressType
+    alias
+    accountBasicInfo {
+      address
+      balance
+      isContract
+      numberTxsReceived
+      numberTxsSent
+      priceInUsd
+      pubKey
+      totalAmountReceived
+      totalAmountSent
+    }
+    group {
+      description
+      id
+      name
+    }
+  }
+}

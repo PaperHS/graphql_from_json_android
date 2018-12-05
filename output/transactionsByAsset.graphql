@@ -1,0 +1,41 @@
+query transactionsByAsset($address: String!, $addressType: String!, $assetId: String!, $filter: Filter, $paging: PageInput){
+  transactionsByAsset(address: $address, addressType: $addressType, assetId: $assetId, filter: $filter, paging: $paging) {
+    data {
+      addressType
+      hash
+      note
+      accountingState {
+        isSettled
+        payableOrReceivable
+      }
+      relatedTransactions {
+        hash
+        note
+      }
+      tags {
+        id
+        name
+        type
+      }
+      transactionBasicInfo {
+        blockHash
+        txType
+        fromAddress
+        gasLimit
+        gasPrice
+        gasUsed
+        blockHeight
+        priceInUsd
+        time
+        toAddress
+        total
+        hash
+      }
+    }
+    page {
+      cursor
+      next
+      total
+    }
+  }
+}

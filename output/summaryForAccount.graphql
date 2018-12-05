@@ -1,0 +1,41 @@
+query summaryForAccount($address: String!, $addressType: String!){
+  summaryForAccount(address: $address, addressType: $addressType) {
+    amountUnsettledPayables
+    amountUnsettledReceivables
+    numberUnsettledPayables
+    numberUnsettledReceivables
+    account {
+      address
+      addressType
+      alias
+      accountBasicInfo {
+        address
+        balance
+        isContract
+        numberTxsReceived
+        numberTxsSent
+        priceInUsd
+        pubKey
+        totalAmountReceived
+        totalAmountSent
+      }
+      group {
+        description
+        id
+        name
+      }
+    }
+    assetType {
+      decimals
+      id
+      logo
+      name
+      symbol
+      price {
+        fiat
+        symbol
+        value
+      }
+    }
+  }
+}

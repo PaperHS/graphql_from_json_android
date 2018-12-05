@@ -1,0 +1,23 @@
+query accountByAddress($address: String!, $addressType: String!){
+  accountByAddress(address: $address, addressType: $addressType) {
+    address
+    addressType
+    alias
+    accountBasicInfo {
+      address
+      balance
+      isContract
+      numberTxsReceived
+      numberTxsSent
+      priceInUsd
+      pubKey
+      totalAmountReceived
+      totalAmountSent
+    }
+    group {
+      description
+      id
+      name
+    }
+  }
+}

@@ -1,0 +1,34 @@
+mutation updateAccountingState($hash: String!, $isSettled: Boolean!, $payableOrReceivable: Int!){
+  updateAccountingState(hash: $hash, isSettled: $isSettled, payableOrReceivable: $payableOrReceivable) {
+    addressType
+    hash
+    note
+    accountingState {
+      isSettled
+      payableOrReceivable
+    }
+    relatedTransactions {
+      hash
+      note
+    }
+    tags {
+      id
+      name
+      type
+    }
+    transactionBasicInfo {
+      blockHash
+      txType
+      fromAddress
+      gasLimit
+      gasPrice
+      gasUsed
+      blockHeight
+      priceInUsd
+      time
+      toAddress
+      total
+      hash
+    }
+  }
+}

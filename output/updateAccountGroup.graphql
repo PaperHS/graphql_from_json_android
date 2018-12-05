@@ -1,0 +1,23 @@
+mutation updateAccountGroup($accountGroup: String!, $address: String!){
+  updateAccountGroup(accountGroup: $accountGroup, address: $address) {
+    address
+    addressType
+    alias
+    accountBasicInfo {
+      address
+      balance
+      isContract
+      numberTxsReceived
+      numberTxsSent
+      priceInUsd
+      pubKey
+      totalAmountReceived
+      totalAmountSent
+    }
+    group {
+      description
+      id
+      name
+    }
+  }
+}

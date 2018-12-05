@@ -95,49 +95,83 @@ const formatArgs = (values, specs = {}) => {
   if (!values) {
     throw new Error('Empty args when generating graphql query');
   }
+  return Object.keys(values || {})
+    .filter(x => specs[x])
+    .map(x => {
+      const type = specs[x].type.ofType ? specs[x].type.ofType.name : specs[x].type.name;
+      const kind = specs[x].type.ofType ? specs[x].type.ofType.kind : specs[x].type.kind;
+      let value = type;
+      
+      // if (kind === 'SCALAR') {
+      //   if (['String', 'DateTime', 'ID', 'HexString'].includes(type)) {
+      //     value = `${values[x].toString()}`;
+      //   } else {
+      //     value = values[x].toString();
+      //   }
+      // } else {
+      //   value = `{ ${Object.keys(values[x])
+      //     .map(
+      //       key =>
+      //         `${key}: ${
+      //           typeof values[x][key] === 'number' ? values[x][key] : `"${values[x][key]}"`
+      //         }`
+      //     )
+      //     .join(', ')} }`;
+      // }
 
-  const missingArgs = [];
-  const isRequiredMissing = Object.keys(specs).some(x => {
-    const isMissing = specs[x].type.kind === 'NON_NULL' && typeof values[x] === 'undefined';
-    if (isMissing) {
-      missingArgs.push(x);
-    }
+      return `${x}: $${x}`;
+    })
+    .join(', ');
+};
 
-    return isMissing;
-  });
-  if (isRequiredMissing) {
-    throw new Error(
-      `Missing required args {${missingArgs.toString()}} when generating graphql query`
-    );
+const formatArgs_fix = (values, specs = {}) => {
+  if (!values) {
+    throw new Error('Empty args when generating graphql query');
   }
+
+  // const missingArgs = [];
+  // const isRequiredMissing = Object.keys(specs).some(x => {
+  //   const isMissing = specs[x].type.kind === 'NON_NULL' && typeof values[x] === 'undefined';
+  //   if (isMissing) {
+  //     missingArgs.push(x);
+  //   }
+
+  //   return isMissing;
+  // });
+  // if (isRequiredMissing) {
+  //   throw new Error(
+  //     `Missing required args {${missingArgs.toString()}} when generating graphql query`
+  //   );
+  // }
 
   return Object.keys(values || {})
     .filter(x => specs[x])
     .map(x => {
       const type = specs[x].type.ofType ? specs[x].type.ofType.name : specs[x].type.name;
       const kind = specs[x].type.ofType ? specs[x].type.ofType.kind : specs[x].type.kind;
-      let value = '';
-      if (kind === 'SCALAR') {
-        if (['String', 'DateTime', 'ID', 'HexString'].includes(type)) {
-          value = `${values[x].toString()}`;
-        } else {
-          value = values[x].toString();
-        }
-      } else {
-        value = `{ ${Object.keys(values[x])
-          .map(
-            key =>
-              `${key}: ${
-                typeof values[x][key] === 'number' ? values[x][key] : `"${values[x][key]}"`
-              }`
-          )
-          .join(', ')} }`;
-      }
+      let value = type + (specs[x].type.kind === 'NON_NULL'?'!':'');
+      // if (kind === 'SCALAR') {
+      //   if (['String', 'DateTime', 'ID', 'HexString'].includes(type)) {
+      //     value = `${values[x].toString()}`;
+      //   } else {
+      //     value = values[x].toString();
+      //   }
+      // } else {
+      //   value = `{ ${Object.keys(values[x])
+      //     .map(
+      //       key =>
+      //         `${key}: ${
+      //           typeof values[x][key] === 'number' ? values[x][key] : `"${values[x][key]}"`
+      //         }`
+      //     )
+      //     .join(', ')} }`;
+      // }
 
-      return `${x}: ${value}`;
+      return `$${x}: ${value}`;
     })
     .join(', ');
 };
+
 
 /**
  * Add path for nested objects
@@ -176,8 +210,8 @@ const getGraphQLBuilders = ({ types, rootName, ignoreFields, type }) => {
 
   const prefix = {
     query: '',
-    mutation: 'mutation',
-    subscription: 'subscription',
+    mutation: '',
+    subscription: '',
   }[type];
 
   return map[rootName].fields.reduce((fns, x) => {
@@ -196,7 +230,7 @@ const getGraphQLBuilders = ({ types, rootName, ignoreFields, type }) => {
     /* eslint-disable indent */
     const fn = (argValues = {},argValues_fix = {}, _ignoreFields = []) => {
       const argStr = x.args.length ? `${formatArgs(argValues, argSpecs)}` : '';
-      const argStrFix = x.args.length ? `${formatArgs(argValues_fix, argSpecs)}` : '';
+      const argStrFix = x.args.length ? `${formatArgs_fix(argValues_fix, argSpecs)}` : '';
       const selection = makeQuery(
         fields,
         [].concat(_ignoreFields || []).concat(globalIgnore),
@@ -208,7 +242,6 @@ const getGraphQLBuilders = ({ types, rootName, ignoreFields, type }) => {
       
       try {
         var rst = print(parse(queryStr));
-        console.log("name:"+x)
         rst = `${type} ${x.name}${argStr ?  `(${argStrFix})` : ''}`+rst
         return rst;
       } catch (err) {

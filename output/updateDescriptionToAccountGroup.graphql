@@ -1,0 +1,7 @@
+mutation updateDescriptionToAccountGroup($description: String!, $id: String!){
+  updateDescriptionToAccountGroup(description: $description, id: $id) {
+    description
+    id
+    name
+  }
+}

@@ -1,0 +1,14 @@
+query transactionTags($paging: PageInput){
+  transactionTags(paging: $paging) {
+    data {
+      id
+      name
+      type
+    }
+    page {
+      cursor
+      next
+      total
+    }
+  }
+}

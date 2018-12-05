@@ -1,0 +1,23 @@
+mutation addAccount($accountGroup: String!, $address: String!, $addressType: String, $alias: String!){
+  addAccount(accountGroup: $accountGroup, address: $address, addressType: $addressType, alias: $alias) {
+    address
+    addressType
+    alias
+    accountBasicInfo {
+      address
+      balance
+      isContract
+      numberTxsReceived
+      numberTxsSent
+      priceInUsd
+      pubKey
+      totalAmountReceived
+      totalAmountSent
+    }
+    group {
+      description
+      id
+      name
+    }
+  }
+}

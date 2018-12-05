@@ -1,0 +1,3 @@
+mutation removeAccountGroup($id: String!){
+  removeAccountGroup(id: $id)
+}

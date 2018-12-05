@@ -1,0 +1,7 @@
+mutation updateTag($id: String!, $name: String!){
+  updateTag(id: $id, name: $name) {
+    id
+    name
+    type
+  }
+}

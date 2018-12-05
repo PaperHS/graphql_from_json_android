@@ -1,0 +1,34 @@
+mutation updateRelatedTransaction($hash: String!, $relatedTransactions: RelatedTransactionList!){
+  updateRelatedTransaction(hash: $hash, relatedTransactions: $relatedTransactions) {
+    addressType
+    hash
+    note
+    accountingState {
+      isSettled
+      payableOrReceivable
+    }
+    relatedTransactions {
+      hash
+      note
+    }
+    tags {
+      id
+      name
+      type
+    }
+    transactionBasicInfo {
+      blockHash
+      txType
+      fromAddress
+      gasLimit
+      gasPrice
+      gasUsed
+      blockHeight
+      priceInUsd
+      time
+      toAddress
+      total
+      hash
+    }
+  }
+}
